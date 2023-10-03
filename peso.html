@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>peso entrar</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        label {
+            margin: 10px 0;
+        }
+        .radio-group {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        .radio-group label {
+            margin: 0 10px 0 0;
+        }
+        input[type="number"] {
+            width: 4em;
+            font-size: 2em;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+
+<form action="https://script.google.com/macros/s/AKfycbzV1HooUoaVawPwZMT0Q8Y6vNZZqBbxmwEdf9QvFArlPLXM3r4V0RwdS5k91ivHx8xF/exec" 
+      method="post">
+    <label for="data">Data:</label>
+    <input type="date" id="data" name="data" value="2023-09-27">
+
+    <label for="weight">Peso:</label>
+    <input type="number" id="weight" name="weight" step="0.1" value="79">
+
+    <label for="fat">Fat %:</label>
+    <input type="number" id="fat" name="fat" step="0.1" value="22">
+
+    <label>Visceral fat:</label>
+    <div class="radio-group">
+        <input type="radio" id="6" name="visceral" value="6">
+        <label for="6">6</label>
+        <input type="radio" id="7" name="visceral" value="7">
+        <label for="7">7</label>
+        <input type="radio" id="8" name="visceral" value="8" checked>
+        <label for="8">8</label>
+        <input type="radio" id="9" name="visceral" value="9">
+        <label for="9">9</label>
+    </div>
+
+    <label for="muscle">Muscle %:</label>
+    <input type="number" id="muscle" name="muscle" step="0.1" value="33">
+
+    <label for="metabolism">Metabolismo basal:</label>
+    <input type="number" id="metabolism" name="metabolism" step="0.1" value="1600">
+
+    <input type="submit" value="Submit">
+</form>
+
+<script>
+    document.getElementById('data').valueAsDate = new Date();
+</script>
+
+</body>
+</html>
