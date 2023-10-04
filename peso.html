@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>peso entrar</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,65 +10,81 @@
             flex-direction: column;
             align-items: flex-start;
         }
+
         label {
             margin: 10px 0;
         }
+
         .radio-group {
             display: flex;
             flex-direction: row;
             align-items: center;
             font-size: 1.5em;
         }
+
         .radio-group label {
             margin: 0 10px 0 0;
         }
+
         input[type="number"] {
-            width: 4em;
+            width: 3em;
             font-size: 2em;
         }
+
         input[type="submit"] {
-            padding: 10px 20px;
-            font-size: 1em;
+            padding: 20px 20px;
+            font-size: 2em;
         }
+
+        /* 
+        https://developer.mozilla.org/en-US/docs/Web/CSS/::-webkit-inner-spin-button
+        */
+        input[type=number]::-webkit-inner-spin-button { 
+            opacity: 1;
+            height: 1.5em;
+        } 
     </style>
 </head>
+
 <body>
 
-<form action="https://script.google.com/macros/s/AKfycbwE_BaYUADAKAdL17je3vuw_VzKWzybwl6RjHeRgRh_ra6kBKfXAOrgoz9jBK82H2zY/exec" 
-      method="post">
-    <label for="data">Data:</label>
-    <input type="date" id="data" name="data" value="2023-09-27">
+    <form
+        action="https://script.google.com/macros/s/AKfycbwE_BaYUADAKAdL17je3vuw_VzKWzybwl6RjHeRgRh_ra6kBKfXAOrgoz9jBK82H2zY/exec"
+        method="post">
+        <label for="data">Data:</label>
+        <input type="date" id="data" name="data" value="2023-09-27">
 
-    <label for="weight">Peso:</label>
-    <input type="number" id="weight" name="weight" step="0.1" value="79">
+        <label for="weight">Peso:</label>
+        <input type="number" id="weight" name="weight" step="0.1" value="79">
 
-    <label for="fat">Fat %:</label>
-    <input type="number" id="fat" name="fat" step="0.1" value="22">
+        <label for="fat">Fat %:</label>
+        <input type="number" id="fat" name="fat" step="0.1" value="22">
 
-    <label>Visceral fat:</label>
-    <div class="radio-group">
-        <input type="radio" id="6" name="visceral" value="6">
-        <label for="6">6</label>
-        <input type="radio" id="7" name="visceral" value="7">
-        <label for="7">7</label>
-        <input type="radio" id="8" name="visceral" value="8" checked>
-        <label for="8">8</label>
-        <input type="radio" id="9" name="visceral" value="9">
-        <label for="9">9</label>
-    </div>
+        <label>Visceral fat:</label>
+        <div class="radio-group">
+            <input type="radio" id="6" name="visceral" value="6">
+            <label for="6">6</label>
+            <input type="radio" id="7" name="visceral" value="7">
+            <label for="7">7</label>
+            <input type="radio" id="8" name="visceral" value="8" checked>
+            <label for="8">8</label>
+            <input type="radio" id="9" name="visceral" value="9">
+            <label for="9">9</label>
+        </div>
 
-    <label for="muscle">Muscle %:</label>
-    <input type="number" id="muscle" name="muscle" step="0.1" value="34">
+        <label for="muscle">Muscle %:</label>
+        <input type="number" id="muscle" name="muscle" step="0.1" value="34">
 
-    <label for="metabolism">Metabolismo basal:</label>
-    <input type="number" id="metabolism" name="metabolism" step="5" value="1680">
+        <label for="metabolism">Metabolismo basal:</label>
+        <input type="number" id="metabolism" name="metabolism" step="5" value="1680">
 
-    <input type="submit" value="Submit">
-</form>
+        <input type="submit" value="Submit">
+    </form>
 
-<script>
-    document.getElementById('data').valueAsDate = new Date();
-</script>
-<p><a href=https://github.com/pauloneves/peso/edit/main/peso.html>editar form</a>
+    <script>
+        document.getElementById('data').valueAsDate = new Date();
+    </script>
+    <p><a href=https://github.com/pauloneves/peso/edit/main/peso.html>editar form</a>
 </body>
+
 </html>
