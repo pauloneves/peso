@@ -49,7 +49,7 @@
 <body>
 
     <form
-        action="https://script.google.com/macros/s/AKfycbwE_BaYUADAKAdL17je3vuw_VzKWzybwl6RjHeRgRh_ra6kBKfXAOrgoz9jBK82H2zY/exec"
+        action="https://script.google.com/macros/s/AKfycbztx5PbMa_s-dD8qWVv6rcv_5NMa-oW-hNmTKcRi47PcQojDafr1BhipCpsE5FBiBRe/exec"
         method="post">
         <label for="data">Data:</label>
         <input type="date" id="data" name="data" value="2023-09-27">
@@ -77,6 +77,8 @@
 
         <label for="metabolism">Metabolismo basal:</label>
         <input type="number" id="metabolism" name="metabolism" step="5" value="1680">
+        <label for="circunferencia">Circunferência abdominal:</label>
+        <input type="number" id="circunferencia" name="metabolism" step=".5" value="90">
 
         <input type="submit" value="Submit">
     </form>
@@ -84,7 +86,8 @@
     <script>
         document.getElementById('data').valueAsDate = new Date();
     </script>
-    <p><a href=https://github.com/pauloneves/peso/edit/main/peso.html>editar form</a>
+    <p><a href="https://github.com/pauloneves/peso/edit/main/peso.html">editar form</a></p>
+    <p><a href="https://docs.google.com/spreadsheets/d/1Y7ttLP6_C-2oPxTtwni5ABdkcxKLu8CDtPsXOolyQWU/edit#gid=0">planilha</a></p>
 </body>
 
 </html>
