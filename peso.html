@@ -40,11 +40,29 @@
         /* 
         https://developer.mozilla.org/en-US/docs/Web/CSS/::-webkit-inner-spin-button
         */
-        input[type=number]::-webkit-inner-spin-button { 
+        input[type="number"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background: url('up_down_arrows.png') no-repeat;
+            background-size: 1em; /* Adjust this to change the size of the arrows */
+            background-position: right center;
+        }
+        
+        input[type="number"]::-webkit-inner-spin-button, 
+        input[type="number"]::-webkit-outer-spin-button { 
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            margin: 0; 
             opacity: 1;
-            height: 1.5em;
+            /* height: 1.5em; */
         } 
-    </style>
+         input[type="number"] {
+            -moz-appearance: textfield;
+        } 
+
+</style>
 </head>
 
 <body>
@@ -104,6 +122,31 @@
     </script>
     <p><a href="https://github.com/pauloneves/peso/edit/main/peso.html">editar form</a></p>
     <p><a href="https://docs.google.com/spreadsheets/d/1Y7ttLP6_C-2oPxTtwni5ABdkcxKLu8CDtPsXOolyQWU/edit#gid=0">planilha</a></p>
+
+
+    <script>
+        // Select all number input fields
+        var numberInputs = document.querySelectorAll('input[type="number"]');
+    
+        // Loop through each number input field
+        numberInputs.forEach(function(input) {
+            // Add event listener for click events
+            input.addEventListener('click', function(event) {
+                // Calculate the position of the click relative to the input field
+                var clickX = event.pageX - event.target.offsetLeft;
+    
+                // If the click was on the right half of the input field
+                if (clickX > input.offsetWidth / 2) {
+                    // Increment the input field's value
+                    input.stepUp();
+                } else {
+                    // Otherwise, decrement the input field's value
+                    input.stepDown();
+                }
+            });
+        });
+    </script>
+    
 </body>
 
 </html>
