@@ -6,41 +6,81 @@
     <link rel="shortcut icon" href="weight-balance.png" type="image/png">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
+        * {
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 16px;
+            background-color: #f8f9fa;
+        }
+
         form {
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            width: 100%;
         }
 
         label {
-            margin: 10px 0;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        input[type="date"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.2rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: white;
         }
 
         .radio-group {
             display: flex;
             flex-direction: row;
             align-items: center;
-            font-size: 1.5em;
+            flex-wrap: wrap;
+            gap: 5px;
         }
 
-        .radio-group label {
-            margin: 0 10px 0 0;
+        .radio-option {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+
+        .radio-option input[type="radio"] {
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+        }
+
+        .radio-option label {
+            margin: 0;
+            font-size: 1.3rem;
         }
 
         input[type="number"] {
-            width: 3em;
-            font-size: 2em;
+            width: 100%;
             text-align: center;
+            font-size: 1.5rem;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: white;
             -moz-appearance: textfield;
-        }
-        
-        #metabolism {
-            width: 5em;
-        }
-        
-        input[type="submit"] {
-            padding: 20px 20px;
-            font-size: 2em;
         }
 
         /* Remove default spinners */
@@ -49,125 +89,238 @@
             -webkit-appearance: none;
             margin: 0; 
         }
-        
+
         /* Custom number input container */
         .number-input-container {
             display: flex;
             align-items: center;
+            width: 100%;
         }
         
         /* Style for custom arrow buttons */
         .arrow-btn {
             background-color: #f0f0f0;
             border: 1px solid #ccc;
-            width: 30px;
-            height: 30px;
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             user-select: none;
-            font-size: 20px;
-            margin: 0 5px;
+            font-size: 24px;
+            border-radius: 8px;
+            transition: background-color 0.2s, transform 0.1s;
         }
         
-        .arrow-btn:hover {
-            background-color: #e0e0e0;
+        .down-btn {
+            margin-right: 10px;
+            background-color: #ffecec;
+        }
+        
+        .up-btn {
+            margin-left: 10px;
+            background-color: #ecffec;
+        }
+        
+        .arrow-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .down-btn:active {
+            background-color: #ffcece;
+        }
+        
+        .up-btn:active {
+            background-color: #ceffce;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 16px;
+            margin-top: 20px;
+            font-size: 1.5rem;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:active {
+            background-color: #3e8e41;
+        }
+
+        .footer-links {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 1rem;
+        }
+
+        .footer-links a {
+            color: #0066cc;
+            text-decoration: none;
+            padding: 8px;
+        }
+
+        .footer-links a:active {
+            background-color: rgba(0, 102, 204, 0.1);
+            border-radius: 4px;
+        }
+
+        .measurement-value {
+            font-weight: bold;
+            color: #333;
         }
     </style>
 </head>
 
 <body>
-
     <form
         id="pesoForm"
         action="https://script.google.com/macros/s/AKfycbwD82n_3g1e2JVOows3ekC_8klVkW7Mk5fPuAGtA1ig0ByZzXJY2wA1IYEveFWdY09V/exec"
         method="post">
-        <label for="data">Data:</label>
-        <input type="date" id="data" name="data" value="2023-09-27">
-
-        <label for="weight">Peso:</label>
-        <div class="number-input-container">
-            <div class="arrow-btn down-btn" data-input="weight">−</div>
-            <input type="number" id="weight" name="weight" step="0.1" value="82">
-            <div class="arrow-btn up-btn" data-input="weight">+</div>
+        
+        <div class="form-group">
+            <input type="date" id="data" name="data" value="2023-09-27">
+            <label for="data">Data:</label>
         </div>
 
-        <label for="fat">Fat %:</label>
-        <div class="number-input-container">
-            <div class="arrow-btn down-btn" data-input="fat">−</div>
-            <input type="number" id="fat" name="fat" step="0.1" value="24">
-            <div class="arrow-btn up-btn" data-input="fat">+</div>
+        <div class="form-group">
+            <div class="number-input-container">
+                <div class="arrow-btn down-btn" data-input="weight" data-step="0.1">−</div>
+                <input type="number" id="weight" name="weight" step="0.1" value="82">
+                <div class="arrow-btn up-btn" data-input="weight" data-step="0.1">+</div>
+            </div>
+            <label for="weight">Peso (kg):</label>
         </div>
 
-        <label>Visceral fat:</label>
-        <div class="radio-group">
-            <input type="radio" id="6" name="visceral" value="6">
-            <label for="6">6</label>
-            <input type="radio" id="7" name="visceral" value="7" >
-            <label for="7">7</label>
-            <input type="radio" id="8" name="visceral" value="8" >
-            <label for="8">8</label>
-            <input type="radio" id="9" name="visceral" value="9" checked>
-            <label for="9">9</label>
+        <div class="form-group">
+            <div class="number-input-container">
+                <div class="arrow-btn down-btn" data-input="fat" data-step="0.1">−</div>
+                <input type="number" id="fat" name="fat" step="0.1" value="24">
+                <div class="arrow-btn up-btn" data-input="fat" data-step="0.1">+</div>
+            </div>
+            <label for="fat">Fat %:</label>
         </div>
 
-        <label for="muscle">Muscle %:</label>
-        <div class="number-input-container">
-            <div class="arrow-btn down-btn" data-input="muscle">−</div>
-            <input type="number" id="muscle" name="muscle" step="0.1" value="34">
-            <div class="arrow-btn up-btn" data-input="muscle">+</div>
+        <div class="form-group">
+            <label>Visceral fat:</label>
+            <div class="radio-group">
+                <div class="radio-option">
+                    <input type="radio" id="6" name="visceral" value="6">
+                    <label for="6">6</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" id="7" name="visceral" value="7">
+                    <label for="7">7</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" id="8" name="visceral" value="8">
+                    <label for="8">8</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" id="9" name="visceral" value="9" checked>
+                    <label for="9">9</label>
+                </div>
+            </div>
         </div>
 
-        <label for="metabolism">Metabolismo basal:</label>
-        <div class="number-input-container">
-            <div class="arrow-btn down-btn" data-input="metabolism">−</div>
-            <input type="number" id="metabolism" name="metabolism" step="5" value="1680">
-            <div class="arrow-btn up-btn" data-input="metabolism">+</div>
+        <div class="form-group">
+            <div class="number-input-container">
+                <div class="arrow-btn down-btn" data-input="muscle" data-step="0.1">−</div>
+                <input type="number" id="muscle" name="muscle" step="0.1" value="34">
+                <div class="arrow-btn up-btn" data-input="muscle" data-step="0.1">+</div>
+            </div>
+            <label for="muscle">Muscle %:</label>
         </div>
-        <!-- label for="circunferencia">Circunferência abdominal:</label>
-        <input type="number" id="circunferencia" name="metabolism" step=".5" value="" -->
 
+        <div class="form-group">
+            <div class="number-input-container">
+                <div class="arrow-btn down-btn" data-input="metabolism" data-step="5">−</div>
+                <input type="number" id="metabolism" name="metabolism" step="5" value="1700">
+                <div class="arrow-btn up-btn" data-input="metabolism" data-step="5">+</div>
+            </div>
+            <label for="metabolism">Metabolismo basal (kcal):</label>
+        </div>
         
         <input type="hidden" id="muscleKg" name="muscleKg">
         <input type="hidden" id="fatKg" name="fatKg">
 
-        <input type="submit" value="Submit">
+        <input type="submit" value="Salvar Medidas">
+
+        <div id="summary" class="form-group">
+            <!-- Dynamically updated summary -->
+        </div>
     </form>
+
+    <div class="footer-links">
+        <a href="https://github.com/pauloneves/peso/edit/main/peso.html">Editar form</a>
+        <a href="https://docs.google.com/spreadsheets/d/1Y7ttLP6_C-2oPxTtwni5ABdkcxKLu8CDtPsXOolyQWU/edit#gid=0">Ver planilha</a>
+    </div>
 
     <script>
         // Set today's date
         document.getElementById('data').valueAsDate = new Date();
 
         // Calculate muscle and fat values on submit
-        document.getElementById('pesoForm').addEventListener('submit', function() {
+        document.getElementById('pesoForm').addEventListener('submit', function(e) {
+            calculateDerivedValues();
+        });
+
+        function calculateDerivedValues() {
             var weight = parseFloat(document.getElementById('weight').value.replace(/\./g, '.'));
             var muscle = parseFloat(document.getElementById('muscle').value.replace(/\./g, '.'));
             var fat = parseFloat(document.getElementById('fat').value.replace(/\./g, '.'));
 
-            document.getElementById('muscleKg').value = (muscle * weight) / 100;
-            document.getElementById('fatKg').value = (fat * weight) / 100;
-        });
+            var muscleKg = (muscle * weight) / 100;
+            var fatKg = (fat * weight) / 100;
+
+            document.getElementById('muscleKg').value = muscleKg;
+            document.getElementById('fatKg').value = fatKg;
+            
+            updateSummary(weight, fat, fatKg, muscle, muscleKg);
+        }
+        
+        function updateSummary(weight, fat, fatKg, muscle, muscleKg) {
+            var summaryElement = document.getElementById('summary');
+            summaryElement.innerHTML = `
+                <p>Fat: <span class="measurement-value">${fat}% (${fatKg.toFixed(1)} kg)</span>
+                 Muscle: <span class="measurement-value">${muscle}% (${muscleKg.toFixed(1)} kg)</span></p>
+            `;
+        }
 
         // Add event listeners for custom arrow buttons
-        document.querySelectorAll('.up-btn').forEach(function(btn) {
+        document.querySelectorAll('.arrow-btn').forEach(function(btn) {
             btn.addEventListener('click', function() {
                 var inputId = this.getAttribute('data-input');
                 var input = document.getElementById(inputId);
-                input.stepUp();
+                
+                if (this.classList.contains('up-btn')) {
+                    input.stepUp();
+                } else {
+                    input.stepDown();
+                }
+                
+                // Update derived values when input values change
+                calculateDerivedValues();
+            });
+            
+            // Add touch feedback for mobile
+            btn.addEventListener('touchstart', function() {
+                this.style.opacity = '0.7';
+            });
+            
+            btn.addEventListener('touchend', function() {
+                this.style.opacity = '1';
             });
         });
-
-        document.querySelectorAll('.down-btn').forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                var inputId = this.getAttribute('data-input');
-                var input = document.getElementById(inputId);
-                input.stepDown();
-            });
-        });
+        
+        // Initial calculation
+        calculateDerivedValues();
     </script>
-    <p><a href="https://github.com/pauloneves/peso/edit/main/peso.html">editar form</a></p>
-    <p><a href="https://docs.google.com/spreadsheets/d/1Y7ttLP6_C-2oPxTtwni5ABdkcxKLu8CDtPsXOolyQWU/edit#gid=0">planilha</a></p>
 </body>
 
 </html>
