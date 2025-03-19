@@ -174,14 +174,24 @@
             font-weight: bold;
             color: #333;
         }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            font-size: 1.2rem;
+            color: #666;
+        }
     </style>
 </head>
 
 <body>
+    <div id="loading" class="loading">Carregando dados anteriores...</div>
+    
     <form
         id="pesoForm"
         action="https://script.google.com/macros/s/AKfycbwD82n_3g1e2JVOows3ekC_8klVkW7Mk5fPuAGtA1ig0ByZzXJY2wA1IYEveFWdY09V/exec"
-        method="post">
+        method="post"
+        style="display: none">
         
         <div class="form-group">
             <input type="date" id="data" name="data" value="2023-09-27">
@@ -264,6 +274,76 @@
         // Set today's date
         document.getElementById('data').valueAsDate = new Date();
 
+        // URL to fetch last values from Google Sheet
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwD82n_3g1e2JVOows3ekC_8klVkW7Mk5fPuAGtA1ig0ByZzXJY2wA1IYEveFWdY09V/exec";
+        
+        // Fetch the last values when the page loads
+        window.addEventListener('DOMContentLoaded', fetchLastValues);
+        
+        function fetchLastValues() {
+            // Make a GET request to the Google Apps Script to fetch the last row
+            fetch(SCRIPT_URL + "?action=getLastRow")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data && data.success) {
+                        prefillForm(data.values);
+                    } else {
+                        console.error("Error fetching data:", data.error || "Unknown error");
+                        // Show the form with default values if we couldn't fetch the last values
+                        document.getElementById('loading').style.display = 'none';
+                        document.getElementById('pesoForm').style.display = 'flex';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Show the form with default values if we couldn't fetch the last values
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('pesoForm').style.display = 'flex';
+                });
+        }
+        
+        function prefillForm(values) {
+            // If values were successfully fetched
+            if (values) {
+                // Update form fields with the last values
+                // Assuming the values are in the same order as the form fields
+                // Adjust indices based on your actual Google Sheet column order
+                
+                // Keep today's date as is, don't prefill with last date
+                
+                // Prefill weight
+                if (values.weight) document.getElementById('weight').value = values.weight;
+                
+                // Prefill fat percentage
+                if (values.fat) document.getElementById('fat').value = values.fat;
+                
+                // Prefill visceral fat (radio buttons)
+                if (values.visceral) {
+                    const visceralValue = values.visceral.toString();
+                    const radioBtn = document.getElementById(visceralValue);
+                    if (radioBtn) radioBtn.checked = true;
+                }
+                
+                // Prefill muscle percentage
+                if (values.muscle) document.getElementById('muscle').value = values.muscle;
+                
+                // Prefill metabolism
+                if (values.metabolism) document.getElementById('metabolism').value = values.metabolism;
+                
+                // Calculate derived values based on these prefilled values
+                calculateDerivedValues();
+            }
+            
+            // Hide loading message and show the form
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('pesoForm').style.display = 'flex';
+        }
+
         // Calculate muscle and fat values on submit
         document.getElementById('pesoForm').addEventListener('submit', function(e) {
             calculateDerivedValues();
@@ -316,9 +396,6 @@
                 this.style.opacity = '1';
             });
         });
-        
-        // Initial calculation
-        calculateDerivedValues();
     </script>
 </body>
 
