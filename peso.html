@@ -30,39 +30,51 @@
         input[type="number"] {
             width: 3em;
             font-size: 2em;
+            text-align: center;
+            -moz-appearance: textfield;
         }
-        #metabolism {width: 5em;}
+        
+        #metabolism {
+            width: 5em;
+        }
+        
         input[type="submit"] {
             padding: 20px 20px;
             font-size: 2em;
         }
 
-        /* 
-        https://developer.mozilla.org/en-US/docs/Web/CSS/::-webkit-inner-spin-button
-        */
-        input[type="number"] {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            background: url('up_down_arrows.png') no-repeat;
-            background-size: 1em; /* Adjust this to change the size of the arrows */
-            background-position: right center;
-        }
-        
+        /* Remove default spinners */
         input[type="number"]::-webkit-inner-spin-button, 
         input[type="number"]::-webkit-outer-spin-button { 
             -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
             margin: 0; 
-            opacity: 1;
-            /* height: 1.5em; */
-        } 
-         input[type="number"] {
-            -moz-appearance: textfield;
-        } 
-
-</style>
+        }
+        
+        /* Custom number input container */
+        .number-input-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        /* Style for custom arrow buttons */
+        .arrow-btn {
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            user-select: none;
+            font-size: 20px;
+            margin: 0 5px;
+        }
+        
+        .arrow-btn:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
 </head>
 
 <body>
@@ -75,10 +87,18 @@
         <input type="date" id="data" name="data" value="2023-09-27">
 
         <label for="weight">Peso:</label>
-        <input type="number" id="weight" name="weight" step="0.1" value="82">
+        <div class="number-input-container">
+            <div class="arrow-btn down-btn" data-input="weight">−</div>
+            <input type="number" id="weight" name="weight" step="0.1" value="82">
+            <div class="arrow-btn up-btn" data-input="weight">+</div>
+        </div>
 
         <label for="fat">Fat %:</label>
-        <input type="number" id="fat" name="fat" step="0.1" value="24">
+        <div class="number-input-container">
+            <div class="arrow-btn down-btn" data-input="fat">−</div>
+            <input type="number" id="fat" name="fat" step="0.1" value="24">
+            <div class="arrow-btn up-btn" data-input="fat">+</div>
+        </div>
 
         <label>Visceral fat:</label>
         <div class="radio-group">
@@ -93,10 +113,18 @@
         </div>
 
         <label for="muscle">Muscle %:</label>
-        <input type="number" id="muscle" name="muscle" step="0.1" value="34">
+        <div class="number-input-container">
+            <div class="arrow-btn down-btn" data-input="muscle">−</div>
+            <input type="number" id="muscle" name="muscle" step="0.1" value="34">
+            <div class="arrow-btn up-btn" data-input="muscle">+</div>
+        </div>
 
         <label for="metabolism">Metabolismo basal:</label>
-        <input type="number" id="metabolism" name="metabolism" step="5" value="1680">
+        <div class="number-input-container">
+            <div class="arrow-btn down-btn" data-input="metabolism">−</div>
+            <input type="number" id="metabolism" name="metabolism" step="5" value="1680">
+            <div class="arrow-btn up-btn" data-input="metabolism">+</div>
+        </div>
         <!-- label for="circunferencia">Circunferência abdominal:</label>
         <input type="number" id="circunferencia" name="metabolism" step=".5" value="" -->
 
@@ -108,8 +136,10 @@
     </form>
 
     <script>
+        // Set today's date
         document.getElementById('data').valueAsDate = new Date();
 
+        // Calculate muscle and fat values on submit
         document.getElementById('pesoForm').addEventListener('submit', function() {
             var weight = parseFloat(document.getElementById('weight').value.replace(/\./g, '.'));
             var muscle = parseFloat(document.getElementById('muscle').value.replace(/\./g, '.'));
@@ -118,35 +148,26 @@
             document.getElementById('muscleKg').value = (muscle * weight) / 100;
             document.getElementById('fatKg').value = (fat * weight) / 100;
         });
-    </script>
-    </script>
-    <p><a href="https://github.com/pauloneves/peso/edit/main/peso.html">editar form</a></p>
-    <p><a href="https://docs.google.com/spreadsheets/d/1Y7ttLP6_C-2oPxTtwni5ABdkcxKLu8CDtPsXOolyQWU/edit#gid=0">planilha</a></p>
 
+        // Add event listeners for custom arrow buttons
+        document.querySelectorAll('.up-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var inputId = this.getAttribute('data-input');
+                var input = document.getElementById(inputId);
+                input.stepUp();
+            });
+        });
 
-    <script>
-        // Select all number input fields
-        var numberInputs = document.querySelectorAll('input[type="number"]');
-    
-        // Loop through each number input field
-        numberInputs.forEach(function(input) {
-            // Add event listener for click events
-            input.addEventListener('click', function(event) {
-                // Calculate the position of the click relative to the input field
-                var clickX = event.pageX - event.target.offsetLeft;
-    
-                // If the click was on the right half of the input field
-                if (clickX > input.offsetWidth / 2) {
-                    // Increment the input field's value
-                    input.stepUp();
-                } else {
-                    // Otherwise, decrement the input field's value
-                    input.stepDown();
-                }
+        document.querySelectorAll('.down-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var inputId = this.getAttribute('data-input');
+                var input = document.getElementById(inputId);
+                input.stepDown();
             });
         });
     </script>
-    
+    <p><a href="https://github.com/pauloneves/peso/edit/main/peso.html">editar form</a></p>
+    <p><a href="https://docs.google.com/spreadsheets/d/1Y7ttLP6_C-2oPxTtwni5ABdkcxKLu8CDtPsXOolyQWU/edit#gid=0">planilha</a></p>
 </body>
 
 </html>
